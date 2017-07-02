@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+{% load staticfiles %}
+{% block head %}
+
+    <title>Personal page({{pers.id}})</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'personalp/static/css/style.css'%}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'personalp/static/css/main.css'%}"/>
+    <link rel="stylesheet" type="text/css" media="print" href="{% static 'personalp/static/css/print.css'%}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'personalp/static/css/prettyPhoto.css'%}"/>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="personalp_content_avatar_wrapper_wrapper_left">
+        <div class="personalp_content_avatar_wrapper">
+            {% if pers.img_pers %}
+                <img class="personalp_content_avatar" src="{{MEDIA_URL}}{{pers.img_pers}}" alt="nea">
+            {% endif %}
+                <form action="{% url 'personalp:personal_info' pers.pk %}" method="post" enctype=multipart/form-data>
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Submit" />
+                </form>
+        </div>
+        <div class="personalp_content_nav_wrapper well bs-sidebar">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="personalp_content_nav_wrapper_li active"><a href="">{{ pers.first_name }} {{ pers.second_name }} {{ pers.nick_name }}</a></li>
+                <li class="personalp_content_nav_wrapper_li"><a href="">If you want to contact with me please send me email on: {{pers.email_pers}}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="personalp_content_avatar_wrapper_wrapper_right">
+        <div class="personalp_content_right_column">
+            <a href="{% url 'sociotypetest:sociotest' pers.pk %}">Тест на социотип</a>
+            <!--<a href="{% url 'registration:register' %}">Регистрация</a>-->
+            {{ pers.description }}
+            {{ pers.social_type }}
+            {{ socionic_type.description_short }}
+        </div>
+    </div>
+
+{% endblock %}

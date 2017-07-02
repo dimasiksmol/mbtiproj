@@ -1,0 +1,495 @@
+{% extends "index.html" %}
+
+{% load staticfiles %}
+
+{% block head %}
+
+<title>Социотест</title>
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'sociotypetest/static/css/sociotypetest_style.css'%}"/>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="introduction">
+<p>Привет, я социотест</p>
+<p>Опросник Кейрси для определения типа личности
+Любой, познакомившись с соционикой, первым делом пытается определить свой тип. Сразу предупредим - дело это непростое. Самотипирование имеет свои как положительные, так и отрицательные стороны. Положительно то, что это позволяет Вам "покопаться" в себе, лучше узнать себя, сопоставить с другими. Кроме того кто как не Вы знаете свои так сказать "сокровенные уголки души", о которых не всегда можно рассказать постороннему человеку. Отрицательным в самотипировании является то, что по отношению к себе человек часто бывает необъективен (как в сторону переоценки, так и недооценки своих возможностей). Здесь необходим как бы взгляд со стороны. Причем родственники или знакомые также могут быть необъективны (из-за межличностных отношений). Тем не менее тесты необходимы. Мы приводим популярный тест-опросник известного психолога Кейрси для определения типа личности. Пользуйтесь, но помните, что даже с хорошим тестом (а этот тест - хороший) вероятность правильно типировать себя немногим больше 60%.</p>
+
+<p>Инструкция</p>
+<p>1. Это опросник для определения типичных способов поведения и личностных характеристик. Он состоит из 70 утверждений (вопросов), каждое из которых имеет два варианта ответа. Вам необходимо выбрать один. Все ответы равноценны, среди них нет "правильных" или "неправильных"! Поэтому не нужно "угадывать" ответ.</p>
+<p>2. Выберите ответ, который свойственен вашему поведению в большинстве жизненных ситуаций.</p>
+<p>3. Работайте последовательно, не пропуская вопросов.</p>
+<p>4. Отвечайте правдиво, если вы хотите узнать что-то о себе, а не о какой-то мифической личности.</p>
+</div>
+<div class="form_wrapper">
+<form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            <div class="fieldWrapper_label">
+                {{ field.label }}
+            </div>
+            <div class="fieldWrapper_field">
+                {{ field }}
+            </div>
+        </div>
+    {% endfor %}
+    <input type="submit" value="Submit" />
+</form>
+</div>
+
+{% endblock %}
+
+<!--
+<form action="{% url 'sociotypetest:sociotest_result' pers.id %}" method="post">
+    {% csrf_token %}
+    <div>
+        <label for="question_1">1. В компании (на вечеринке) Вы </label>
+    </div>
+    <div>
+        <input type="radio" name="choice_1" id="question_1" value="extraversion">а) общаетесь со многими, включая и незнакомцев;
+        <input type="radio" name="choice_1" id="question_2" value="introversion">б) общаетесь с немногими - Вашими знакомыми.
+    </div>
+    <div>
+        <label for="question_3">2. Вы человек скорее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_2" id="question_3" value="sensing">а) реалистичный, чем склонный теоретизировать;
+        <input type="radio" name="choice_2" id="question_4" value="intuition">б) склонный теоретизировать, чем реалистичный.
+    </div>
+    <div>
+        <label for="question_5">3. По-Вашему, что хуже:</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_3" id="question_5" value="sensing">а) "витать в облаках";
+        <input type="radio" name="choice_3" id="question_6" value="intuition">б) придерживаться проторенной дорожки.
+    </div>
+    <div>
+        <label for="question_7">4. Вы более подвержены влиянию</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_4" id="question_7" value="thinking">а) принципов, законов;
+        <input type="radio" name="choice_4" id="question_8" value="feeling">б) эмоций, чувств.
+    </div>
+    <div>
+        <label for="question_9">5. Вы более склонны</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_5" id="question_9" value="thinking">а) убеждать;
+        <input type="radio" name="choice_5" id="question_10" value="feeling">б) затрагивать чувства.
+    </div>
+    <div>
+        <label for="question_11">6. Вы предпочитаете работать</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_6" id="question_11" value="judging">а) выполняя все точно в срок;
+        <input type="radio" name="choice_6" id="question_12" value="perceiving">б) не связывая себя определенными сроками.
+    </div>
+    <div>
+        <label for="question_13">7. Вы склонны делать выбор</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_7" id="question_13" value="judging">а) довольно осторожно;
+        <input type="radio" name="choice_7" id="question_14" value="perceiving">б) внезапно, импульсивно.
+    </div>
+    <div>
+        <label for="question_15">8. В компании (на вечеринке) Вы</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_8" id="question_15" value="extraversion">а) остаетесь допоздна, не чувствуя усталости;
+        <input type="radio" name="choice_8" id="question_16" value="introversion">б) быстро утомляетесь и предпочитаете пораньше уйти.
+    </div>
+    <div>
+        <label for="question_17">9. Вас более привлекают</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_9" id="question_17" value="sensing">а) здравомыслящие люди;
+        <input type="radio" name="choice_9" id="question_18" value="intuition">б) люди с богатым воображением.
+    </div>
+    <div>
+        <label for="question_19">10. Вам интересно</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_10" id="question_19" value="sensing">а) то, что происходит в действительности;
+        <input type="radio" name="choice_10" id="question_20" value="intuition">б) те события, которые могут произойти.
+    </div>
+    <div>
+        <label for="question_21">11. Оценивая поступки людей, Вы больше учитываете</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_11" id="question_21" value="thinking">а) требования закона, чем обстоятельства;
+        <input type="radio" name="choice_11" id="question_22" value="feeling">б) обстоятельства, чем требования закона.
+    </div>
+    <div>
+        <label for="question_23">12. Обращаясь к другим, Вы скпонны</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_12" id="question_23" value="thinking">а) соблюдать формальности, этикет;
+        <input type="radio" name="choice_12" id="question_24" value="feeling">б) проявлять свои личные, индивидуальные качества.
+    </div>
+    <div>
+        <label for="question_25">13. Вы человек скорее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_13" id="question_25" value="judging">а) точный, пунктуальный;
+        <input type="radio" name="choice_13" id="question_26" value="perceiving">б) неторопливый, медлительный.
+    </div>
+    <div>
+        <label for="question_27">14. Вас больше беспокоит необходимость</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_14" id="question_27" value="judging">а) оставлять дела незаконченными;
+        <input type="radio" name="choice_14" id="question_28" value="perceiving">б) непременно доводить дела до конца.
+    </div>
+    <div>
+        <label for="question_29">15. В кругу знакомых Вы, как правило</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_15" id="question_29" value="extraversion">а) в курсе происходящих событий;
+        <input type="radio" name="choice_15" id="question_30" value="introversion">б) узнаете о новостях с опозданием.
+    </div>
+    <div>
+        <label for="question_31">16. Повседневные дела Вам нравится делать</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_16" id="question_31" value="sensing">а) общепринятым способом;
+        <input type="radio" name="choice_16" id="question_32" value="intuition">б) своим оригинальным способом.
+    </div>
+    <div>
+        <label for="question_33">17. Предпочитаю таких писателей, которые</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_17" id="question_33" value="sensing">а) выражаются буквально, напрямую;
+        <input type="radio" name="choice_17" id="question_34" value="intuition">б) пользуются аналогиями, иносказаниями.
+    </div>
+    <div>
+        <label for="question_35">18. Что Вас больше привлекает</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_18" id="question_35" value="thinking">а) стройность мысли;
+        <input type="radio" name="choice_18" id="question_36" value="feeling">б) гармония человеческих отношений.
+    </div>
+    <div>
+        <label for="question_37">19. В чувствуете себя увереннее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_19" id="question_37" value="thinking">а) в логических умозаключениях;
+        <input type="radio" name="choice_19" id="question_38" value="feeling">б) в практических оценках ситуаций.
+    </div>
+    <div>
+        <label for="question_39">20. Вы предпочитаете, когда дела</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_20" id="question_39" value="judging">а) решены и устроены;
+        <input type="radio" name="choice_20" id="question_40" value="perceiving">б) не решены и пока не улажены.
+    </div><div>
+        <label for="question_41">21. Как по-Вашему, Вы человек, скорее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_21" id="question_41" value="judging">а) серьезный, определенный;
+        <input type="radio" name="choice_21" id="question_42" value="perceiving">б) беззаботный, беспечный.
+    </div><div>
+        <label for="question_43">22. При телефонных разговорах Вы</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_22" id="question_43" value="extraversion">а) заранее не продумываете все, что нужно сказать;
+        <input type="radio" name="choice_22" id="question_44" value="introversion">б) мысленно "репетируете" то, что будет сказано:
+    </div><div>
+        <label for="question_45">23. Как Вы считаете, факты</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_23" id="question_45" value="sensing">а) важны сами по себе;
+        <input type="radio" name="choice_23" id="question_46" value="intuition">б) есть проявления общих закономерностей.
+    </div><div>
+        <label for="question_47">24. Фантазеры, мечтатели обычно </label>
+    </div>
+    <div>
+        <input type="radio" name="choice_24" id="question_47" value="sensing">а) раздражают Вас;
+        <input type="radio" name="choice_24" id="question_48" value="intuition">б) довольно симпатичны Вам.
+    </div><div>
+        <label for="question_49">25. Вы чаще действуете как человек</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_25" id="question_49" value="thinking">а) хладнокровный;
+        <input type="radio" name="choice_25" id="question_50" value="feeling">б) вспыльчивый, горячий.
+    </div><div>
+        <label for="question_51">26. Как по-Вашему, хуже быть</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_26" id="question_51" value="thinking">а) несправедливым;
+        <input type="radio" name="choice_26" id="question_52" value="feeling">б) беспощадным.
+    </div><div>
+        <label for="question_53">27. Обычно Вы предпочитаете действовать</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_27" id="question_53" value="judging">а) тщательно взвесив все возможности;
+        <input type="radio" name="choice_27" id="question_54" value="perceiving">б) полагаясь на волю случая.
+    </div><div>
+        <label for="question_55">28. Вам приятнее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_28" id="question_55" value="judging">а) покупать что-нибудь;
+        <input type="radio" name="choice_28" id="question_56" value="perceiving">б) иметь возможность купить.
+    </div>
+    <div>
+        <label for="question_57">29. В компании Вы, как правило</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_29" id="question_57" value="extraversion">а) первым заводите беседу;
+        <input type="radio" name="choice_29" id="question_58" value="introversion">б) ждете, когда с Вами заговорят.
+    </div>
+    <div>
+        <label for="question_59">30. Здравый смысл</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_30" id="question_59" value="sensing">а) редко ошибается;
+        <input type="radio" name="choice_30" id="question_60" value="intuition">б) часто попадает впросак.
+    </div>
+    <div>
+        <label for="question_61">31. Детям часто не хватает</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_31" id="question_61" value="sensing">а) практичности;
+        <input type="radio" name="choice_31" id="question_62" value="intuition">б) воображения.
+    </div>
+    <div>
+        <label for="question_63">32. В принятии решений Вы руководствуетесь скорее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_32" id="question_63" value="thinking">а) тщательно взвесив все возможности;
+        <input type="radio" name="choice_32" id="question_64" value="feeling">б) полагаясь на волю случая.
+    </div><div>
+        <label for="question_65">33. Вы человек скорее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_33" id="question_65" value="thinking">а) твердый, чем мягкий;
+        <input type="radio" name="choice_33" id="question_66" value="feeling">б) мягкий, чем твердый.
+    </div><div>
+        <label for="question_67">34. Что, по-Вашему, больше впечатляет</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_34" id="question_67" value="judging">а) умение методично организовать;
+        <input type="radio" name="choice_34" id="question_68" value="perceiving">б) умение приспособиться и довольствоваться достигнутым.
+    </div><div>
+        <label for="question_69">35. Вы больше цените</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_35" id="question_69" value="judging">а) определенность, законченность;
+        <input type="radio" name="choice_35" id="question_70" value="perceiving">б) открытость, многовариантность.
+    </div><div>
+        <label for="question_71">36. Новые и нестандартные отношения с людьми </label>
+    </div>
+    <div>
+        <input type="radio" name="choice_36" id="question_71" value="extraversion">а) стимулируют, придают Вам энергии;
+        <input type="radio" name="choice_36" id="question_72" value="introversion">б} утомляют Вас.
+    </div><div>
+        <label for="question_73">37. Вы чаще действуете как</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_37" id="question_73" value="sensing">а) человек практического склада;
+        <input type="radio" name="choice_37" id="question_74" value="intuition">б) человек оригинальный, необычный.
+    </div><div>
+        <label for="question_75">38. Вы более склонны</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_38" id="question_75" value="sensing">а) находить пользу в отношениях с людьми;
+        <input type="radio" name="choice_38" id="question_76" value="intuition">б) понимать мысли и чувства других.
+    </div><div>
+        <label for="question_77">39. Что приносит Вам больше удовлетворения</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_39" id="question_77" value="thinking">а) тщательное и всесторонне обсуждение спорного вопроса;
+        <input type="radio" name="choice_39" id="question_78" value="feeling">б) достижение соглашения по поводу спорного вопроса.
+    </div><div>
+        <label for="question_79">40. Вы руководствуетесь более</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_40" id="question_79" value="thinking">а) рассудком;
+        <input type="radio" name="choice_40" id="question_80" value="feeling">б) велениями сердца.
+    </div><div>
+        <label for="question_81">41. Вам удобнее выполнять работу</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_41" id="question_81" value="judging">а) по предварительной договоренности;
+        <input type="radio" name="choice_41" id="question_82" value="perceiving">б) которая подвернулась случайно.
+    </div><div>
+        <label for="question_83">42. Вы обычно полагаетесь</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_42" id="question_83" value="judging">а) на организованность, порядок;
+        <input type="radio" name="choice_42" id="question_84" value="perceiving">б) на случайность, неожиданность.
+    </div><div>
+        <label for="question_85">43 Вы предпочитаете иметь</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_43" id="question_85" value="extraversion">а) много друзей на непродолжительный срок;
+        <input type="radio" name="choice_43" id="question_86" value="introversion">б) несколько старых друзей.
+    </div><div>
+        <label for="question_87">44. Вы руководствуетесь в большей степени</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_44" id="question_87" value="sensing">а) фактами, обстоятельствами;
+        <input type="radio" name="choice_44" id="question_88" value="intuition">б) общими положениями, принципами.
+    </div><div>
+        <label for="question_89">45. Вас больше интересуют</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_45" id="question_89" value="sensing">а) производство и сбыт продукции;
+        <input type="radio" name="choice_45" id="question_90" value="intuition">б) проектирование и исследования.
+    </div><div>
+        <label for="question_91">46. Что Вы считаете за комплимент</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_46" id="question_91" value="thinking">а) "Вы очень логичный человек";
+        <input type="radio" name="choice_46" id="question_92" value="feeling">б) "Вы тонко чувствующий человек".
+    </div><div>
+        <label for="question_93">47. Вы более цените в себе</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_47" id="question_93" value="thinking">а) невозмутимость;
+        <input type="radio" name="choice_47" id="question_94" value="feeling">б) увлеченность.
+    </div><div>
+        <label for="question_95">48. Вы предпочитаете высказывать</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_48" id="question_95" value="judging">а) окончательные и определенные утверждения;
+        <input type="radio" name="choice_48" id="question_96" value="perceiving">б) предварительные и неоднозначные утверждения.
+    </div><div>
+        <label for="question_97">49. Вы лучше чувствуете себя</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_49" id="question_97" value="judging">а) после принятия решения;
+        <input type="radio" name="choice_49" id="question_98" value="perceiving">б) не ограничивая себя решениями.
+    </div><div>
+        <label for="question_99">50. Общаясь с незнакомыми, Вы</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_50" id="question_99" value="extraversion">а) легко завязываете продолжительные беседы;
+        <input type="radio" name="choice_50" id="question_100" value="introversion">б) не всегда находите общие темы для разговора.
+    </div><div>
+        <label for="question_101">51. Вы больше доверяете</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_51" id="question_101" value="sensing">а) своему опыту;
+        <input type="radio" name="choice_51" id="question_102" value="intuition">б) своим предчувствиям.
+    </div><div>
+        <label for="question_103">52. Вы чувствуете себя человеком</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_52" id="question_103" value="sensing">а) более практичным, чем изобретательным;
+        <input type="radio" name="choice_52" id="question_104" value="intuition">б) более изобретательным, чем практичным.
+    </div><div>
+        <label for="question_105">53. Кто заслуживает большего одобрения -</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_53" id="question_105" value="thinking">а) рассудительный, здравомыслящий человек;
+        <input type="radio" name="choice_53" id="question_106" value="feeling">б) человек, глубоко переживающий.
+    </div><div>
+        <label for="question_107">54. Вы более склонны</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_54" id="question_107" value="thinking">а) быть прямым и беспристрастным;
+        <input type="radio" name="choice_54" id="question_108" value="feeling">б) сочувствовать людям.
+    </div><div>
+        <label for="question_109">55. Что, по-Вашему, предпочтительней</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_55" id="question_109" value="judging">а) удостовериться, что все подготовлено и улажено;
+        <input type="radio" name="choice_55" id="question_110" value="perceiving">б) предоставить событиям идти своим чередом.
+    </div><div>
+        <label for="question_111">56. Отношения между людьми должны строиться</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_56" id="question_111" value="judging">а) на предварительной взаимной договоренности;
+        <input type="radio" name="choice_56" id="question_112" value="perceiving">б) в зависимости от обстоятельств.
+    </div><div>
+        <label for="question_113">57. Когда звонит телефон, Вы</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_57" id="question_113" value="extraversion">а) торопитесь подойти первым;
+        <input type="radio" name="choice_57" id="question_114" value="introversion">б) надеетесь, что подойдет кто-нибудь другой.
+    </div><div>
+        <label for="question_115">58. Что Вы цените в себе больше</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_58" id="question_115" value="sensing">а) развитое чувство реальности;
+        <input type="radio" name="choice_58" id="question_116" value="intuition">б) пылкое воображение.
+    </div><div>
+        <label for="question_117">59. Вы больше придаете значение</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_59" id="question_117" value="sensing">а) тому, что сказано;
+        <input type="radio" name="choice_59" id="question_118" value="intuition">б) тому, как сказано.
+    </div><div>
+        <label for="question_119">60. Что выглядит большим заблуждением</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_60" id="question_119" value="thinking">а) излишняя пылкость, горячность;
+        <input type="radio" name="choice_60" id="question_120" value="feeling">б) чрезмерная объективность, беспристрастность.
+    </div><div>
+        <label for="question_121">61. Вы в основном считаете себя</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_61" id="question_121" value="thinking">а) трезвым и практичным;
+        <input type="radio" name="choice_61" id="question_122" value="feeling">б) сердечным и отзывчивым.
+    </div><div>
+        <label for="question_123">62. Какие ситуации привлекают Вас больше</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_62" id="question_123" value="judging">а) регламентированные и упорядоченные;
+        <input type="radio" name="choice_62" id="question_124" value="perceiving">б) неупорядоченные и нерегламентированные.
+    </div>
+    <div>
+        <label for="question_125">63. Вы человек, скорее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_63" id="question_125" value="judging">а) педантичный, чем капризный;
+        <input type="radio" name="choice_63" id="question_126" value="perceiving">б) капризный, чем педантичный.
+    </div>
+    <div>
+        <label for="question_127">64. Вы чаще склонны</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_64" id="question_127" value="extraversion">а) быть открытым, доступным людям;
+        <input type="radio" name="choice_64" id="question_128" value="introversion">б) быть сдержанным, скрытным.
+    </div><div>
+        <label for="question_129">65. В литературных произведениях Вы предпочитаете</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_65" id="question_129" value="sensing">а) буквальность, конкретность;
+        <input type="radio" name="choice_65" id="question_130" value="intuition">б) образность, переносный смысл.
+    </div><div>
+        <label for="question_131">66. Что для Вас труднее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_66" id="question_131" value="sensing">а) находить общий язык с другими;
+        <input type="radio" name="choice_66" id="question_132" value="intuition">б) использовать других в своих интересах.
+    </div><div>
+        <label for="question_133">67. Чего бы вы себе больше пожелали</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_67" id="question_133" value="thinking">а) ясности размышлений;
+        <input type="radio" name="choice_67" id="question_134" value="feeling">б) умения сочувствовать.
+    </div><div>
+        <label for="question_135">68. Что хуже</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_68" id="question_135" value="thinking">а) быть неприхотливым;
+        <input type="radio" name="choice_68" id="question_136" value="feeling">б) быть излишне привередливым.
+    </div><div>
+        <label for="question_137">69. Вы предпочитаете</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_69" id="question_137" value="judging">а) запланированные события;
+        <input type="radio" name="choice_69" id="question_138" value="perceiving">б) незапланированные события.
+    </div><div>
+        <label for="question_139">70. Вы склонны поступать скорее</label>
+    </div>
+    <div>
+        <input type="radio" name="choice_70" id="question_139" value="judging">а) обдуманно, чем импульсивно;
+        <input type="radio" name="choice_70" id="question_140" value="perceiving">б) импульсивно, чем обдуманно.
+    </div>
+    <div><button type="submit" value="Vote"></button></div>
+</form>

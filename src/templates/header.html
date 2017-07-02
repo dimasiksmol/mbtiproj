@@ -1,0 +1,25 @@
+{% load static from staticfiles %}
+
+ <div id="header">
+     <div class="header_logo_site">
+        <h1>Соционический клуб</h1>
+     </div>
+     <ul id="main-nav">
+         {% if pers.id != None %}
+            <li class="current"><a href="{% url 'personalp:personal_info' pers.id %}">Personal page</a></li>
+            <li><a href="{% url 'sociotypetest:sociotest' pers.id %}">Sociotype test</a></li>
+            <li><a href="{% url 'sociotypetest:sociotest_result' pers.id %}">About your sociotype</a></li>
+         {% endif %}
+     </ul>
+
+     <ul>
+         {% if pers.id %}
+            <li><a href="{% url 'authentification:logout_for_user' %}">Выйти</a></li>
+         {% else %}
+            <li><a href="{% url 'authentification:login_for_user' %}">Войти</a></li>
+            <li><a href="{% url 'registration:register' %}">Регистрация</a></li>
+         {% endif %}
+     </ul>
+
+     <div class="clear"></div>
+ </div>

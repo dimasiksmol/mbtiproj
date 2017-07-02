@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% load staticfiles %}
+
+{% block head %}
+<title>Ваш социотип</title>
+{% endblock %}
+
+{% block content %}
+
+{{ if pers.social_type }}
+{{ pers.social_type }}
+{{ socionic_type.symbol }}
+{{ socionic_type.symbol_dif }}
+{{ socionic_type.name }}
+{{ socionic_type.name_dif }}
+{{ dichotomys }}
+<a href="{% url 'personalp:personal_info' pers.id %}">Назад</a>
+<div>
+    {{ socionic_type.img_description }}
+    <img src="{{MEDIA_URL}}{{socionic_type.img_soc}}" alt="no src">
+    {{ socionic_type.quadra }}
+</div>
+<div>
+    {{ socionic_type.description_short }}
+</div>
+
+{{ else }}
+<div>Если вы не прошли тест, то советуем это сделать, так как этот сайт сделан на основе этой типологии</div>
+{{ endif }}
+
+{% endblock %}

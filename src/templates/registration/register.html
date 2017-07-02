@@ -1,0 +1,63 @@
+{% extends "index.html" %}
+
+{% load staticfiles %}
+
+{% block head %}
+<title>Регистрация</title>
+{% endblock %}
+
+{% block content %}
+
+<!-- user_form profile_form -->
+<form action="" method="post" enctype=multipart/form-data>
+    {% csrf_token %}
+    <div>
+        <p>Информация для регистрации</p>
+    </div>
+    <div>
+        <p>Логин: {{ user_form.username }} (Будет использоваться на сайте для входа)*</p>
+    </div>
+    <div>
+        <p>Ваше имя: {{ user_form.first_name }}</p>
+    </div>
+    <div>
+        <p>Фамилия: {{ user_form.last_name }}</p>
+    </div>
+    <div>
+        <p>Введите вашу почту: {{ user_form.email }}</p>
+    </div>
+    <div>
+        <p>Пароль {{ user_form.password1 }}</p>
+        <div>{{ errors_form1.password1}}</div>
+    </div>
+    <div>
+        <p>Повторите пароль {{ user_form.password2 }}</p>
+    </div>
+    <div>
+        <p>Информация отображающаяся в профиле</p>
+    </div>
+    <div>
+        <p>Отчество: {{ profile_form.nick_name }} </p>
+    </div>
+    <div>
+        <p>Дата рождения: {{ profile_form.birth_date }} </p>
+    </div>
+    <div>
+        <p>Из какого вы города: {{ profile_form.location }} </p>
+    </div>
+    <div>
+        <p>Пол: {{ profile_form.gender }}</p>
+    </div>
+    <div>
+        <p>Фотография: {{ profile_form.img_pers }}</p>
+    </div>
+    <!--<div>
+        <p>Повторите пароль, пожайлуста {{ form.password2 }} *</p>
+    </div>-->
+    <div>
+        {{errors_form1.password2}}
+    </div>
+    <button type="submit">Зарегистрироваться</button>
+</form>
+
+{% endblock %}

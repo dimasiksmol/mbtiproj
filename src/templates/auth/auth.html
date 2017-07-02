@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% load staticfiles %}
+{% block head %}
+<title>Login</title>
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <form action="" method="post" enctype=multipart/form-data>
+        {% csrf_token %}
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% for field in form %}
+            <div>
+                {{ field.label }}
+            </div>
+            <div>
+                {{ field.errors }}
+            </div>
+            <div>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+{% endblock %}
